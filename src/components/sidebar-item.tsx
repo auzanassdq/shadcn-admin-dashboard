@@ -24,8 +24,6 @@ const SidebarItem: React.FC<SidebarItemInterface> = ({
   const { isOpen } = useSidebar();
   const pathname = usePathname();
 
-  console.log("tess");
-
   return (
     <Link
       key={href}
