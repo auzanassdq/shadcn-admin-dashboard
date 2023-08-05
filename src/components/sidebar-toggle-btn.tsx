@@ -1,9 +1,11 @@
 "use client";
 
-import useSidebar from "@/app/hooks/useSidebar";
-import { Button } from "./ui/button";
 import { LuChevronRight } from "react-icons/lu";
+
+import useSidebar from "@/hooks/useSidebar";
 import { cn } from "@/lib/utils";
+
+import { Button } from "./ui/button";
 
 const SidebarToggleBtn = () => {
   const { isOpen, toggle } = useSidebar();

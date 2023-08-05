@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { LuChevronRight, LuHome, LuLayoutGrid, LuUsers } from "react-icons/lu";
+import { LuHome, LuLayoutGrid, LuUsers } from "react-icons/lu";
 
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
+import useSidebar from "@/hooks/useSidebar";
+
 import SidebarItem from "./sidebar-item";
-import useSidebar from "@/app/hooks/useSidebar";
 import SidebarToggleBtn from "./sidebar-toggle-btn";
 
 const sidebarNavItem = [

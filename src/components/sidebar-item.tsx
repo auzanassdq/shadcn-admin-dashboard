@@ -5,9 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconType } from "react-icons";
 
-import { buttonVariants } from "./ui/button";
 import { cn } from "@/lib/utils";
-import useSidebar from "@/app/hooks/useSidebar";
+import useSidebar from "@/hooks/useSidebar";
+
+import { buttonVariants } from "./ui/button";
 
 interface SidebarItemInterface {
   title: string;
