@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -5,21 +7,23 @@ import { IconType } from "react-icons";
 
 import { buttonVariants } from "./ui/button";
 import { cn } from "@/lib/utils";
+import useSidebar from "@/app/hooks/useSidebar";
 
 interface SidebarItemInterface {
   title: string;
   href: string;
-  isOpen: boolean;
   icon: IconType;
 }
 
 const SidebarItem: React.FC<SidebarItemInterface> = ({
   title,
   href,
-  isOpen,
   icon: Icon,
 }) => {
+  const { isOpen } = useSidebar();
   const pathname = usePathname();
+
+  console.log("tess");
 
   return (
     <Link

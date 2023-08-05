@@ -6,6 +6,8 @@ import { LuChevronRight, LuHome, LuLayoutGrid, LuUsers } from "react-icons/lu";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import SidebarItem from "./sidebar-item";
+import useSidebar from "@/app/hooks/useSidebar";
+import SidebarToggleBtn from "./sidebar-toggle-btn";
 
 const sidebarNavItem = [
   { title: "Dashboard", href: "/", icon: LuHome },
@@ -14,7 +16,7 @@ const sidebarNavItem = [
 ];
 
 export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
-  const [isOpen, setIsOpen] = useState(true);
+  const { isOpen } = useSidebar();
 
   return (
     <nav
@@ -37,12 +39,7 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
               Panel
             </h2>
 
-            <Button
-              onClick={() => setIsOpen((prevState) => !prevState)}
-              className={cn("absolute right-3", isOpen && "rotate-180")}
-            >
-              <LuChevronRight className="h-4 w-4" />
-            </Button>
+            <SidebarToggleBtn />
           </div>
 
           <hr />
@@ -51,10 +48,10 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
           <div className="mt-3 space-y-1">
             {sidebarNavItem.map((item) => (
               <SidebarItem
+                key={item.href}
                 title={item.title}
                 href={item.href}
                 icon={item.icon}
-                isOpen={isOpen}
               />
             ))}
           </div>
