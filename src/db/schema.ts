@@ -7,6 +7,7 @@ import {
   serial,
   uniqueIndex,
   varchar,
+  index,
   
 } from "drizzle-orm/mysql-core";
 import { relations } from 'drizzle-orm';
@@ -19,25 +20,37 @@ export const users = mysqlTable("users", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
-	posts: many(courses),
-}));
+// export const usersRelations = relations(users, ({ many }) => ({
+// 	posts: many(courses),
+// }));
 
 export const courses = mysqlTable("courses", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 256 }),
   desc: text("email"),
-  authorId: int("author_id").references(() => users.id),
+  authorId: int("author_id"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const coursesRelations = relations(courses, ({ one }) => ({
-	author: one(users, {
-		fields: [courses.authorId],
-		references: [users.id],
-	}),
-}));
+export const posts = mysqlTable("posts", {
+  id: serial("id").primaryKey(),
+  post: varchar("post", { length: 256 }),
+  authorId: int("author_id"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+}, (table) => {
+  return {
+    authorIdIdx: index('author_id_idx').on(table.authorId)
+  }
+});
+
+// export const coursesRelations = relations(courses, ({ one }) => ({
+// 	author: one(users, {
+// 		fields: [courses.authorId],
+// 		references: [users.id],
+// 	}),
+// }));
 
 
 
