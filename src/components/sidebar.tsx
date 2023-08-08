@@ -1,6 +1,6 @@
 "use client";
 
-import { LuHome, LuLayoutGrid, LuUsers } from "react-icons/lu";
+import { LuHome, LuLayoutGrid, LuUsers, LuFilm } from "react-icons/lu";
 
 import { cn } from "@/lib/utils";
 import useSidebar from "@/hooks/useSidebar";
@@ -12,6 +12,7 @@ const sidebarNavItem = [
   { title: "Dashboard", href: "/", icon: LuHome },
   { title: "Report", href: "/report", icon: LuLayoutGrid },
   { title: "User", href: "/user", icon: LuUsers },
+  { title: "Movie", href: "/movie", icon: LuFilm },
 ];
 
 export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
@@ -20,7 +21,7 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <nav
       className={cn(
-        `pb-12 border-r-2 h-screen duration-500`,
+        `pb-12 border-r-2 h-screen sticky top-0 duration-500`,
         isOpen ? "w-80" : "w-[74px]",
         className
       )}
