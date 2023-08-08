@@ -3,6 +3,9 @@ import { Navbar } from "@/components/navbar";
 import { Sidebar } from "@/components/sidebar";
 import getAllPosts from "@/lib/getAllPost";
 import Image from "next/image";
+import { QueryClient } from "react-query";
+
+// const queryClient = new QueryClient()
 
 export default async function Home() {
   const posts = await getAllPosts()
