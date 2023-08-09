@@ -4,12 +4,22 @@ import { Button } from "@/components/ui/button";
 import { User } from "@/db/schema";
 import { showDate } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
-import { LuArrowUpDown } from "react-icons/lu";
+import { LuChevronsUpDown } from "react-icons/lu";
 
 export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "id",
-    header: "Id",
+    header: ({ column }) => {
+      return (
+        <div
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="flex cursor-pointer"
+        >
+          Id
+          <LuChevronsUpDown className="ml-2 h-4 w-4" />
+        </div>
+      )
+    },
   },
   {
     accessorKey: "name",
@@ -20,7 +30,7 @@ export const columns: ColumnDef<User>[] = [
           className="flex cursor-pointer"
         >
           Name
-          <LuArrowUpDown className="ml-2 h-4 w-4" />
+          <LuChevronsUpDown className="ml-2 h-4 w-4" />
         </div>
       )
     },
@@ -34,7 +44,7 @@ export const columns: ColumnDef<User>[] = [
           className="flex cursor-pointer"
         >
           Email
-          <LuArrowUpDown className="ml-2 h-4 w-4" />
+          <LuChevronsUpDown className="ml-2 h-4 w-4" />
         </div>
       )
     },
@@ -49,7 +59,7 @@ export const columns: ColumnDef<User>[] = [
           className="flex cursor-pointer"
         >
           Username
-          <LuArrowUpDown className="ml-2 h-4 w-4" />
+          <LuChevronsUpDown className="ml-2 h-4 w-4" />
         </div>
       )
     },
@@ -63,7 +73,7 @@ export const columns: ColumnDef<User>[] = [
           className="flex cursor-pointer"
         >
           City
-          <LuArrowUpDown className="ml-2 h-4 w-4" />
+          <LuChevronsUpDown className="ml-2 h-4 w-4" />
         </div>
       )
     },
@@ -77,7 +87,7 @@ export const columns: ColumnDef<User>[] = [
           className="flex cursor-pointer"
         >
           Birth
-          <LuArrowUpDown className="ml-2 h-4 w-4" />
+          <LuChevronsUpDown className="ml-2 h-4 w-4" />
         </div>
       )
     },
