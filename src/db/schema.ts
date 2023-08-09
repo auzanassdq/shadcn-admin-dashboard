@@ -22,20 +22,11 @@ export const users = mysqlTable("users", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
-export type User = InferModel<typeof users>
+export type User = InferModel<typeof users>;
 
-// export const usersRelations = relations(users, ({ many }) => ({
-// 	posts: many(courses),
-// }));
-
-export const courses = mysqlTable("courses", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 256 }),
-  desc: text("email"),
-  authorId: int("author_id"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
+export const usersRelations = relations(users, ({ many }) => ({
+  posts: many(posts),
+}));
 
 export const posts = mysqlTable(
   "posts",
@@ -52,6 +43,18 @@ export const posts = mysqlTable(
     };
   }
 );
+export const postsRelations = relations(posts, ({ one }) => ({
+	author: one(users, { fields: [posts.authorId], references: [users.id] }),
+}));
+
+export const courses = mysqlTable("courses", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 256 }),
+  desc: text("email"),
+  authorId: int("author_id"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
 
 // export const coursesRelations = relations(courses, ({ one }) => ({
 // 	author: one(users, {
