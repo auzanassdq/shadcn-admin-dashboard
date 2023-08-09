@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { type User, users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { count } from "console";
+import { eq, sql } from "drizzle-orm";
 
 export async function getUserWithPost(username: string) {
   const result = await db.query.users.findMany({
@@ -14,7 +15,16 @@ export async function getUserWithPost(username: string) {
 }
 
 export async function getAllUser() {
-  const result = await db.select().from(users).limit(0).offset(0)
+  const totalUser = await db.select({count: sql<number>`count(*)`}).from(users)
+  const resUsers = await db.select().from(users)
+  // .limit(limit).offset(limit*page-limit)
+
+  const result = {
+    // page,
+    // limit,
+    total_user: totalUser,
+    data: resUsers,
+  }
 
   return result;
 }
