@@ -71,6 +71,8 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  console.log(sorting);
+
   return (
     <div>
       <div className="flex justify-start item-center py-4">
