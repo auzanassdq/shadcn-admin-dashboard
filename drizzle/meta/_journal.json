@@ -15,6 +15,20 @@
       "when": 1691336927380,
       "tag": "0001_ambiguous_big_bertha",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1691535518326,
+      "tag": "0002_fat_sunspot",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1691535760154,
+      "tag": "0003_rare_caretaker",
+      "breakpoints": true
     }
   ]
 }

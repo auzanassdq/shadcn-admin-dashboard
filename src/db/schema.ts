@@ -8,17 +8,21 @@ import {
   uniqueIndex,
   varchar,
   index,
-  
+  date,
 } from "drizzle-orm/mysql-core";
-import { relations } from 'drizzle-orm';
+import { relations, InferModel } from "drizzle-orm";
 
 export const users = mysqlTable("users", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 256 }),
-  email: varchar("email", { length: 256 }),
+  email: varchar("email", { length: 256 }).unique().notNull(),
+  username: varchar("username", { length: 256 }).unique().notNull(),
+  city: varchar("city", { length: 256 }),
+  birth: date("birth"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+export type User = InferModel<typeof users>
 
 // export const usersRelations = relations(users, ({ many }) => ({
 // 	posts: many(courses),
@@ -33,17 +37,21 @@ export const courses = mysqlTable("courses", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-export const posts = mysqlTable("posts", {
-  id: serial("id").primaryKey(),
-  post: varchar("post", { length: 256 }),
-  authorId: int("author_id"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-}, (table) => {
-  return {
-    authorIdIdx: index('author_id_idx').on(table.authorId)
+export const posts = mysqlTable(
+  "posts",
+  {
+    id: serial("id").primaryKey(),
+    post: varchar("post", { length: 256 }),
+    authorId: int("author_id"),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow(),
+  },
+  (table) => {
+    return {
+      authorIdIdx: index("author_id_idx").on(table.authorId),
+    };
   }
-});
+);
 
 // export const coursesRelations = relations(courses, ({ one }) => ({
 // 	author: one(users, {
@@ -51,8 +59,6 @@ export const posts = mysqlTable("posts", {
 // 		references: [users.id],
 // 	}),
 // }));
-
-
 
 // export const userGetCourse = mysqlTable("user_get_course", {
 //   id: serial("id").primaryKey(),
