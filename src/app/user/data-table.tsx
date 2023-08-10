@@ -43,6 +43,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import DataTablePagination from "./data-table-pagination";
+import { Label } from "@/components/ui/label";
+import FormUser from "./form-user";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -117,16 +119,17 @@ export function DataTable<TData, TValue>({
         {/* Add Data */}
         <Dialog>
           <DialogTrigger asChild className="ml-auto">
-            <Button>Open</Button>
+            <Button>Add User</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+              <DialogTitle>Add User</DialogTitle>
               <DialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
+                Fill blank space below to create new user
               </DialogDescription>
             </DialogHeader>
+
+            <FormUser />
           </DialogContent>
         </Dialog>
       </div>
