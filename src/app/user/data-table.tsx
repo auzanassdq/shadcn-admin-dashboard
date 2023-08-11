@@ -26,24 +26,16 @@ import {
 } from "@/components/ui/table";
 import {
   Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import DataTablePagination from "./data-table-pagination";
-import { Label } from "@/components/ui/label";
 import FormUser from "./form-user";
 
 interface DataTableProps<TData, TValue> {
@@ -55,6 +47,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [open, setOpen] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -116,21 +109,12 @@ export function DataTable<TData, TValue>({
           className="max-w-sm"
         />
 
-        {/* Add Data */}
-        <Dialog>
+        {/* FORM DIALOG */}
+        <Dialog open={open} onOpenChange={setOpen} defaultOpen={false}>
           <DialogTrigger asChild className="ml-auto">
             <Button>Add User</Button>
           </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add User</DialogTitle>
-              <DialogDescription>
-                Fill blank space below to create new user
-              </DialogDescription>
-            </DialogHeader>
-
-            <FormUser />
-          </DialogContent>
+          <FormUser setOpen={setOpen} />
         </Dialog>
       </div>
 
