@@ -15,7 +15,7 @@ export async function getUserWithPost(username: string) {
   return result;
 }
 
-const queryParamsSchema = z.object({
+export const queryParamsSchema = z.object({
   column: z.string().default(""),
   order: z.string().default(""),
   limit: z.number().default(0),
@@ -24,8 +24,7 @@ const queryParamsSchema = z.object({
 export type QuaryParams = z.infer<typeof queryParamsSchema>;
 
 export async function getAllUser(query: QuaryParams) {
-  const { column, order, limit } = queryParamsSchema.parse(query);
-  console.log("DBBBBBBBB", column, order, limit);
+  const { column, order, limit } = query;
 
   const orderByQuery = column ? `${column} ${order}` : "id asc";
   const limitQuery = limit ? limit : 10
@@ -41,7 +40,7 @@ export async function getAllUser(query: QuaryParams) {
     .limit(limitQuery);
 
   const result = {
-    total_user: totalUser,
+    totalData: totalUser[0].count,
     data: resUsers,
   };
 

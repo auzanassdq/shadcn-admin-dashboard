@@ -16,10 +16,12 @@ import {
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
+  totalData: number
 }
 
 function DataTablePagination<TData>({
   table,
+  totalData
 }: DataTablePaginationProps<TData>) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -46,7 +48,8 @@ function DataTablePagination<TData>({
       {/* SHOW COUNT OF SELECTED DATA */}
       <div className="flex text-sm text-muted-foreground">
         {/* {table.getFilteredSelectedRowModel().rows.length} of{" "} */}
-        {table.getFilteredRowModel().rows.length} row(s).
+        {/* {table.getFilteredRowModel().rows.length} row(s). */}
+        {totalData} row(s).
       </div>
 
       <div className="flex items-center justify-between space-x-6">

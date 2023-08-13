@@ -41,11 +41,13 @@ import FormUser from "./form-user";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  totalData: number
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  totalData
 }: DataTableProps<TData, TValue>) {
   const [open, setOpen] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -171,7 +173,7 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* PAGINATION */}
-      <DataTablePagination table={table} />
+      <DataTablePagination table={table} totalData={totalData} />
     </div>
   );
 }
