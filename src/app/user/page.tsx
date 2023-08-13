@@ -13,7 +13,7 @@ const User = async ({searchParams}: Props) => {
   const query = {
     column: searchParams.column,
     order: searchParams.order,
-    limit: searchParams.limit
+    limit: Number(searchParams.limit)
   }
 
   console.log(searchParams);

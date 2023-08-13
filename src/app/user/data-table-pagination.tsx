@@ -29,6 +29,18 @@ function DataTablePagination<TData>({
   const nextPage = Number(page) + 1;
   const prevPage = Number(page) - 1;
 
+  const rowPerPageChange = (value: any) => {
+    value = Number(value);
+    table.setPageSize(Number(value));
+
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    current.set("limit", value);
+
+    const search = current.toString();
+    const query = search ? `?${search}` : "";
+    router.push(`${pathname}${query}`);
+  };
+
   return (
     <div className="flex items-center justify-between space-x-2 py-4">
       {/* SHOW COUNT OF SELECTED DATA */}
@@ -43,9 +55,7 @@ function DataTablePagination<TData>({
           <p className="text-sm font-medium">Rows per page</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value));
-            }}
+            onValueChange={(value) => rowPerPageChange(value)}
           >
             <SelectTrigger className="h-8 w-[70px]">
               <SelectValue placeholder={table.getState().pagination.pageSize} />
