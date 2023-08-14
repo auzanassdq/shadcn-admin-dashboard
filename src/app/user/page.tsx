@@ -8,12 +8,14 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-const User = async ({searchParams}: Props) => {
+const User = async ({ searchParams }: Props) => {
   const query = {
     column: searchParams.column,
     order: searchParams.order,
-    limit: Number(searchParams.limit) || 0
-  }
+    limit: Number(searchParams.limit) || 0,
+    search: searchParams.search,
+  };
+
   const validatedQuery = queryParamsSchema.parse(query);
 
   const result = await getAllUser(validatedQuery);
@@ -27,8 +29,11 @@ const User = async ({searchParams}: Props) => {
       <h1 className="font-bold text-3xl">User</h1>
       <div className="w-full">
         <Suspense fallback={<h1>Loading...</h1>}>
-
-         <DataTable columns={columns} data={result.data} totalData={result.totalData} />
+          <DataTable
+            columns={columns}
+            data={result.data}
+            totalData={result.totalData}
+          />
         </Suspense>
       </div>
     </div>

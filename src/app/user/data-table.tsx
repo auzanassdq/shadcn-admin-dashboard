@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -24,10 +24,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -37,19 +34,26 @@ import {
 
 import DataTablePagination from "./data-table-pagination";
 import FormUser from "./form-user";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  totalData: number
+  totalData: number;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  totalData
+  totalData,
 }: DataTableProps<TData, TValue>) {
   const [open, setOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -68,7 +72,18 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  console.log(sorting);
+  const searchEmail = (event: ChangeEvent<HTMLInputElement>) => {
+    // table.getColumn("email")?.setFilterValue(event.target.value);
+    setSearchInput(event.target.value);
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+
+    setTimeout(() => {
+      current.set("search", event.target.value);
+      const search = current.toString();
+      const query = search ? `?${search}` : "";
+      router.push(`${pathname}${query}`);
+    }, 1000);
+  };
 
   return (
     <div>
@@ -104,10 +119,9 @@ export function DataTable<TData, TValue>({
         {/* FILTERS */}
         <Input
           placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
+          value={searchInput}
+          // value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          onChange={(event) => searchEmail(event)}
           className="max-w-sm"
         />
 
