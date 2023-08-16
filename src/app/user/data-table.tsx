@@ -82,6 +82,9 @@ export function DataTable<TData, TValue>({
   }, [searchInput]);
 
   useEffect(() => {
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    if (!current.get("search") && searchInput.length === 0) return;
+
     setTimeout(() => {
       setSearchQueryParam();
     }, 1000);
