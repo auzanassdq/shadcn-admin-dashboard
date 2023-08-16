@@ -28,19 +28,18 @@ export async function getAllUser(query: QuaryParams) {
   const { column, order, limit, search } = query;
 
   const orderByQuery = column ? `${column} ${order}` : "id asc";
-  const limitQuery = limit ? limit : 10
-  const searchQuery = search ? `email like '%${search}%'` : `email like '%%'`
+  const limitQuery = limit ? limit : 10;
+  const searchQuery = search ? `email like '%${search}%'` : `email like '%%'`;
 
-  const totalUser = await db
-    .select({ count: sql<number>`count(id)` })
-    .from(users);
-
-  const resUsers = await db
-    .select()
-    .from(users)
-    .where(sql.raw(searchQuery))
-    .orderBy(sql.raw(orderByQuery))
-    .limit(limitQuery);
+  const [totalUser, resUsers] = await Promise.all([
+    db.select({ count: sql<number>`count(id)` }).from(users),
+    db
+      .select()
+      .from(users)
+      .where(sql.raw(searchQuery))
+      .orderBy(sql.raw(orderByQuery))
+      .limit(limitQuery),
+  ]);
 
   const result = {
     totalData: totalUser[0].count,
