@@ -12,7 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { LuEye } from "react-icons/lu";
+import { LuEye, LuFilter, LuHourglass, LuSearch } from "react-icons/lu";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +29,8 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -49,6 +51,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [open, setOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [filterColumn, setFilterColumn] = useState("email");
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -90,6 +93,8 @@ export function DataTable<TData, TValue>({
     }, 1000);
   }, [searchInput]);
 
+  console.log(filterColumn);
+
   return (
     <div>
       <div className="flex justify-start item-center py-4">
@@ -122,6 +127,36 @@ export function DataTable<TData, TValue>({
         </DropdownMenu>
 
         {/* FILTERS */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="capitalize">
+              <LuSearch className="mr-2 h-4 w-4" /> {filterColumn}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuRadioGroup
+              value={filterColumn}
+              onValueChange={setFilterColumn}
+            >
+              {table.getAllColumns().map((column) => {
+                return (
+                  <DropdownMenuRadioItem
+                    key={column.id}
+                    className="capitalize"
+                    value={column.id}
+                    // checked={column.getIsVisible()}
+                    // onCheckedChange={(value) => {
+                    //   column.toggleVisibility(value);
+                    //   console.log(value);
+                    // }}
+                  >
+                    {column.id}
+                  </DropdownMenuRadioItem>
+                );
+              })}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <div className="relative">
           <Input
             placeholder="Filter emails..."
