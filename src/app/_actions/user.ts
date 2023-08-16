@@ -20,16 +20,30 @@ export const queryParamsSchema = z.object({
   order: z.string().default(""),
   limit: z.number().default(0),
   search: z.string().default(""),
+  searchColumn: z.string().default(""),
 });
 
 export type QuaryParams = z.infer<typeof queryParamsSchema>;
 
-export async function getAllUser(query: QuaryParams) {
-  const { column, order, limit, search } = query;
+export async function getAllUser({
+  column,
+  order,
+  limit,
+  search,
+  searchColumn,
+}: QuaryParams) {
+  // const { column, order, limit, search, searchColumn = "email" } = query;
 
   const orderByQuery = column ? `${column} ${order}` : "id asc";
   const limitQuery = limit ? limit : 10;
-  const searchQuery = search ? `email like '%${search}%'` : `email like '%%'`;
+  const searchQuery =
+    !search && !searchColumn
+      ? `email like '%%'`
+      : search && searchColumn
+      ? `${searchColumn} like '%${search}%'`
+      : `email like '%${search}%'`;
+
+  console.log(searchQuery);
 
   const [totalUser, resUsers] = await Promise.all([
     db.select({ count: sql<number>`count(id)` }).from(users),

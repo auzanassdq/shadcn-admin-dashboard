@@ -93,7 +93,16 @@ export function DataTable<TData, TValue>({
     }, 1000);
   }, [searchInput]);
 
-  console.log(filterColumn);
+  const filterColumnChange = (value: string) => {
+    setFilterColumn(value)
+    
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    current.set("search-column", value);
+
+    const search = current.toString();
+    const query = search ? `?${search}` : "";
+    router.push(`${pathname}${query}`);
+  }
 
   return (
     <div>
@@ -136,7 +145,7 @@ export function DataTable<TData, TValue>({
           <DropdownMenuContent align="end">
             <DropdownMenuRadioGroup
               value={filterColumn}
-              onValueChange={setFilterColumn}
+              onValueChange={(value) => filterColumnChange(value)}
             >
               {table.getAllColumns().map((column) => {
                 return (
@@ -144,11 +153,6 @@ export function DataTable<TData, TValue>({
                     key={column.id}
                     className="capitalize"
                     value={column.id}
-                    // checked={column.getIsVisible()}
-                    // onCheckedChange={(value) => {
-                    //   column.toggleVisibility(value);
-                    //   console.log(value);
-                    // }}
                   >
                     {column.id}
                   </DropdownMenuRadioItem>
@@ -159,9 +163,8 @@ export function DataTable<TData, TValue>({
         </DropdownMenu>
         <div className="relative">
           <Input
-            placeholder="Filter emails..."
+            placeholder={`Filter ${filterColumn}...`}
             value={searchInput}
-            // value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
             onChange={(event) => setSearchInput(event.target.value)}
             className="w-[350px]"
           />

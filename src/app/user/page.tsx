@@ -10,16 +10,17 @@ type Props = {
 
 const User = async ({ searchParams }: Props) => {
   const query = {
-    column: searchParams.column,
-    order: searchParams.order,
-    limit: Number(searchParams.limit) || 0,
-    search: searchParams.search,
+    column: searchParams['column'],
+    order: searchParams['order'],
+    limit: Number(searchParams['limit']) || 0,
+    search: searchParams['search'],
+    searchColumn: searchParams['search-column'],
   };
 
   const validatedQuery = queryParamsSchema.parse(query);
 
   const result = await getAllUser(validatedQuery);
-  console.log(result);
+  // console.log(result);
 
   // Generate 100 data user
   // await seedUser()
