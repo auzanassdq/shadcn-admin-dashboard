@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -72,18 +72,20 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  const searchEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    // table.getColumn("email")?.setFilterValue(event.target.value);
-    setSearchInput(event.target.value);
+  const setSearchQueryParam = useCallback(() => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
+    current.set("search", searchInput);
 
+    const search = current.toString();
+    const query = search ? `?${search}` : "";
+    router.push(`${pathname}${query}`);
+  }, [searchInput]);
+
+  useEffect(() => {
     setTimeout(() => {
-      current.set("search", event.target.value);
-      const search = current.toString();
-      const query = search ? `?${search}` : "";
-      router.push(`${pathname}${query}`);
+      setSearchQueryParam();
     }, 1000);
-  };
+  }, [searchInput]);
 
   return (
     <div>
@@ -117,13 +119,24 @@ export function DataTable<TData, TValue>({
         </DropdownMenu>
 
         {/* FILTERS */}
-        <Input
-          placeholder="Filter emails..."
-          value={searchInput}
-          // value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) => searchEmail(event)}
-          className="max-w-sm"
-        />
+        <div className="relative">
+          <Input
+            placeholder="Filter emails..."
+            value={searchInput}
+            // value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+            onChange={(event) => setSearchInput(event.target.value)}
+            className="w-[350px]"
+          />
+          {searchInput && (
+            <Button
+              size={"icon"}
+              onClick={() => setSearchInput("")}
+              className="absolute top-2 right-2 w-6 h-6"
+            >
+              x
+            </Button>
+          )}
+        </div>
 
         {/* FORM DIALOG */}
         <Dialog open={open} onOpenChange={setOpen} defaultOpen={false}>
