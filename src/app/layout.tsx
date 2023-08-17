@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " dark"} suppressHydrationWarning={true}>
-        <div className="flex justify-between">
+        <div className="flex ">
           <Sidebar className="hidden lg:block" />
           <Toaster />
           {children}
