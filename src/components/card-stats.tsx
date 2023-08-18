@@ -101,7 +101,7 @@ export function CardsStats() {
                   style={
                     {
                       stroke: "var(--theme-primary)",
-                      "--theme-primary": `hsl( 0 0% 98%)`,
+                      "--theme-primary": `var(--chart)`,
                     } as React.CSSProperties
                   }
                 />
@@ -129,7 +129,7 @@ export function CardsStats() {
                     {
                       fill: "var(--theme-primary)",
                       opacity: 1,
-                      "--theme-primary": `hsl( 0 0% 98%)`,
+                      "--theme-primary": `var(--chart)`,
                     } as React.CSSProperties
                   }
                 />

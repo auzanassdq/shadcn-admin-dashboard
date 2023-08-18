@@ -96,6 +96,7 @@ export function Overview() {
             }
             return null;
           }}
+          cursor={{fill: 'none'}}
         />
         <Bar dataKey="total" fill="#adfa1d" radius={[4, 4, 0, 0]} />
       </BarChart>
