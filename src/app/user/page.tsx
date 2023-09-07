@@ -20,7 +20,6 @@ const User = async ({ searchParams }: Props) => {
   const validatedQuery = queryParamsSchema.parse(query);
 
   const result = await getAllUser(validatedQuery);
-  // console.log(result);
 
   // Generate 100 data user
   // await seedUser()

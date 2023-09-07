@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import React from "react";
 
 interface OptionProps {
   key: string;
@@ -16,11 +17,16 @@ interface OptionProps {
   children: React.ReactNode;
 }
 
+// interface CalendarSelectCustomProps extends DropdownProps {
+//   children?: React.ReactElement<OptionProps>[] | null;
+// }
+
 interface CalendarSelectCustomProps extends DropdownProps {
-  children?: React.ReactElement<OptionProps>[];
+  children?: React.ReactNode | React.ReactNode[] | null;
 }
 
 export default function CalendarSelectCustom(props: CalendarSelectCustomProps) {
+  const childrenArray = React.Children.toArray(props.children);
   let { goToMonth, currentMonth } = useNavigation();
 
   const onChange = (e: any) => {
@@ -44,7 +50,7 @@ export default function CalendarSelectCustom(props: CalendarSelectCustomProps) {
         </SelectTrigger>
         <SelectContent>
           <ScrollArea className="h-[250px] rounded-md border p-4">
-            {props.children?.map((item: any) => (
+            {childrenArray.map((item: any) => (
               <SelectItem key={item.key} value={item.props.value}>
                 {item.props.children}
               </SelectItem>
@@ -52,14 +58,6 @@ export default function CalendarSelectCustom(props: CalendarSelectCustomProps) {
           </ScrollArea>
         </SelectContent>
       </Select>
-
-      {/* <select onChange={props.onChange} className="bg-zinc-700 px-2 py-2">
-        {props.children?.map((item: React.ReactElement<OptionProps>) => (
-          <option key={item.key} value={item.props.value}>
-            {item.props.children}
-          </option>
-        ))}
-      </select> */}
     </>
   );
 }
